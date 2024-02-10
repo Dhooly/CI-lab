@@ -92,9 +92,28 @@ class CounterTest(TestCase):
         self.assertEqual(result.get_json()['far'], expectedValue + 1)
 
     def test_get_a_nonexistent_counter(self):
-        """It should return an error for non-existent counter"""
+        """It should return an error for trying to get non-existent counter"""
         result = self.client.post('/counters/coo')
         self.assertEqual(result.status_code, status.HTTP_201_CREATED)
 
         result = self.client.get('/counters/fake')
+        self.assertEqual(result.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_delete_a_counter(self):
+        """It should delete a counter"""
+        result = self.client.post('/counters/loo')
+        self.assertEqual(result.status_code, status.HTTP_201_CREATED)
+
+        result = self.client.get('/counters/loo')
+        self.assertEqual(result.status_code, status.HTTP_200_OK)
+
+        result = self.client.delete('/counters/loo')
+        self.assertEqual(result.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_a_nonexistent_counter(self):
+        """It should return an erro for trying to delete nonexistent counter"""
+        result = self.client.get('/counters/ayo')
+        self.assertEqual(result.status_code, status.HTTP_404_NOT_FOUND)
+
+        result = self.client.delete('/counters/ayo')
         self.assertEqual(result.status_code, status.HTTP_404_NOT_FOUND)
