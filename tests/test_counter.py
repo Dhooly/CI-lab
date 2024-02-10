@@ -111,9 +111,10 @@ class CounterTest(TestCase):
         self.assertEqual(result.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_a_nonexistent_counter(self):
-        """It should return an erro for trying to delete nonexistent counter"""
+        """It should return an error for trying to delete nonexistent counter"""
         result = self.client.get('/counters/ayo')
         self.assertEqual(result.status_code, status.HTTP_404_NOT_FOUND)
 
         result = self.client.delete('/counters/ayo')
         self.assertEqual(result.status_code, status.HTTP_404_NOT_FOUND)
+
