@@ -33,9 +33,10 @@ jobs:
           sphinx-build -b html docs/ docs/_build
         if: success()
       - name: Dependency Security Scanning
-        uses: GitHubSecurityScanner/dependency-check-action@v2
+        uses: github/code-scanning-action@v1
         with:
-          path: .
+          scan-id: 'dependency-scanning'
+          # Additional configuration options can be added as needed
       - name: Build and Deploy
         run: |
           # Add your deployment script here
