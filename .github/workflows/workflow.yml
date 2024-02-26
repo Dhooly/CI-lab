@@ -23,3 +23,20 @@ jobs:
           flake8 src --count --max-complexity=10 --max-line-length=127 --statistics
       - name: Run unit tests with nose
         run: nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
+      - name: CodeQL Analysis
+        uses: github/codeql-action@v1
+        with:
+          languages: python
+      - name: Generate Documentation
+        run: |
+          pip install -r doc-requirements.txt
+          sphinx-build -b html docs/ docs/_build
+        if: success()
+      - name: Dependency Security Scanning
+        uses: GitHubSecurityScanner/dependency-check-action@v2
+        with:
+          path: .
+      - name: Build and Deploy
+        run: |
+          # Add your deployment script here
+        if: success()      
